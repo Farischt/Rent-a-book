@@ -22,11 +22,6 @@ export default (sequelize, User) =>
           key: "id",
         },
       },
-
-      // ip: {
-      //   type: DataTypes.STRING,
-      //   allowNull: false,
-      // },
     },
     {
       sequelize,
