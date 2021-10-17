@@ -1,0 +1,10 @@
+import AuthController from "@/server/controllers/AuthController"
+
+export default async (req, res) => {
+  if (req.method === "PATCH") {
+    await AuthController.passwordConfirm(req, res)
+  } else {
+    res.statusCode = 405
+    res.json({ error: "method_not_allowed" })
+  }
+}
