@@ -2,6 +2,8 @@ import { useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 
+import AuthService from "@/services/AuthService"
+
 export default function Login() {
   const router = useRouter()
   const [user, setUser] = useState({
@@ -19,8 +21,17 @@ export default function Login() {
     setUser((state) => ({ ...state, [event.target.name]: event.target.value }))
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
+    setLoading(true)
+    try {
+      await AuthService.register(user)
+      setLoading(false)
+      router.push("/auth")
+    } catch (error) {
+      setError("Error Handling to be done here")
+      setLoading(false)
+    }
   }
 
   return (
@@ -61,6 +72,8 @@ export default function Login() {
                       name="email"
                       type="email"
                       autoComplete="email"
+                      value={user.email}
+                      onChange={handleChange}
                       required
                       className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
@@ -181,4 +194,10 @@ export default function Login() {
       </div>
     </div>
   )
+}
+
+import Redirect from "@/lib/Redirect"
+
+export const getServerSideProps = async (context) => {
+  return (await Redirect.redirectAuthenticatedUser(context)) || { props: {} }
 }

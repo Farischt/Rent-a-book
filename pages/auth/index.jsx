@@ -2,6 +2,8 @@ import { useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 
+import AuthService from "@/services/AuthService"
+
 export default function Login() {
   const router = useRouter()
   const [credentials, setCredentials] = useState({
@@ -20,8 +22,27 @@ export default function Login() {
     }))
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
+    setLoading(true)
+    try {
+      await AuthService.login(credentials)
+      setLoading(false)
+      router.push("/")
+    } catch (error) {
+      if (error.response.data.error) {
+        switch (error.response.data.error) {
+          case "invalid_credentials":
+            setError("Identifiants incorects !")
+            break
+          default:
+            setError("Une erreur inconnue est survenu !")
+        }
+      } else {
+        setError("Une erreur inconnue est survenu !")
+      }
+      setLoading(false)
+    }
   }
 
   return (
@@ -125,4 +146,10 @@ export default function Login() {
       </div>
     </div>
   )
+}
+
+import Redirect from "@/lib/Redirect"
+
+export const getServerSideProps = async (context) => {
+  return (await Redirect.redirectAuthenticatedUser(context)) || { props: {} }
 }
