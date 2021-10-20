@@ -6,7 +6,7 @@ This web application was created during the advanced web development course of E
 
 First, you'll need node.js and node package manager "npm" installed : [https://nodejs.org/en/].
 
-- Our version of node.js : v14.17.0.
+- Our version of node.js : v14.17.0. **Make sure to use this version of node to avoid any compatibility issue**
 - Our version of npm : v7.12.1.
 
 ## Technologies
@@ -26,9 +26,9 @@ Install all the dependencies by running the following command :
 npm install
 ```
 
-Create a file named .env.local at the root of the project which should be completed with the .env.example file. The application will not work if this step is not done, because the connection to the database will not be established.
+Create a file named .env.local at the root of the project which should be completed with the .env.example file [here](./.env.example). The application will not work if this step is not done, because the connection to the database will not be established.
 
-ATTENTION : The mailing system only works with outlook service! If you are willing to use another service, you will have to modify the constructor in the file /server/mails/index.js [here](./server/mails/index.js)
+**ATTENTION**: The mailing system only works with outlook service! If you are willing to use another service, you will have to modify the constructor in the file /server/mails/index.js [here](./server/mails/index.js)
 
 ```
 this.transporter = nodemailer.createTransport({
@@ -71,6 +71,8 @@ const sync = false
 Reload your browser, and that's it, your database is ready !
 
 ### With docker
+
+Coming soon
 
 ## Learn More
 
