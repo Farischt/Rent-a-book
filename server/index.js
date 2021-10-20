@@ -8,6 +8,12 @@ class Backend {
     return context.req.socket.remoteAddress
   }
 
+  isUUID(id) {
+    const regexExp =
+      /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi
+    return regexExp.test(id)
+  }
+
   async parseMultipart(context) {
     return await new Promise((resolve, reject) => {
       formidable().parse(context.req, (error, body, files) => {
@@ -36,6 +42,7 @@ class Backend {
   async logout(context) {
     const token =
       context.req.cookies.authToken &&
+      this.isUUID(context.req.cookies.authToken) &&
       (await Database.AuthToken.findByPk(context.req.cookies.authToken))
     token && (await token.destroy())
 
@@ -53,9 +60,9 @@ class Backend {
 
   async getAuthenticatedUser(context) {
     if (!context.req.cookies.authToken) return null
-    const token = await Database.AuthToken.findByPk(
-      context.req.cookies.authToken
-    )
+    const token =
+      this.isUUID(context.req.cookies.authToken) &&
+      (await Database.AuthToken.findByPk(context.req.cookies.authToken))
 
     if (!token) return null
     else if (this.hasAuthTokenExpired(token)) {
