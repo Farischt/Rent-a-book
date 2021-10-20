@@ -1,29 +1,82 @@
-# Next.js + Tailwind CSS Example
+# Rent a book service
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v2.2)](https://blog.tailwindcss.com/tailwindcss-2-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+This web application was created during the advanced web development course of Efrei Paris
 
-It uses the new [`Just-in-Time Mode`](https://tailwindcss.com/docs/just-in-time-mode) for Tailwind CSS.
+## Installation
 
-## Preview
+First, you'll need node.js and node package manager "npm" installed : [https://nodejs.org/en/].
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+- Our version of node.js : v14.17.0.
+- Our version of npm : v7.12.1.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+## Technologies
 
-## Deploy your own
+Our project uses the following technologies :
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+- The React framework for production Next.js for both front-end and back-end (React + Node.js running on the same server).
+- A postgreSQL database.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+## Getting Started
 
-## How to use
+### Without docker
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+Install all the dependencies by running the following command :
 
 ```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
+npm install
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+Create a file named .env.local at the root of the project which should be completed with the .env.example file. The application will not work if this step is not done, because the connection to the database will not be established.
+
+ATTENTION : The mailing system only works with outlook service! If you are willing to use another service, you will have to modify the constructor in the file /server/mails/index.js [here](./server/mails/index.js)
+
+```
+this.transporter = nodemailer.createTransport({
+      host: "smtp-mail.outlook.com",
+      port: 587,
+      tls: {
+        ciphers: "SSLv3",
+      },
+      auth: {
+        user: CREDENTIALS.APP_EMAIL,
+        pass: CREDENTIALS.APP_PASSWORD,
+      },
+    })
+```
+
+Go to the file /server/database.js [here](./server/database.js) and change the following line of code :
+
+On line 18 change false to true like following:
+
+```
+const sync = true
+```
+
+This line of code creates all the tables in database.
+
+Then, run the development server:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+Go back to file /server/database.js and switch back to false.
+
+```
+const sync = false
+```
+
+Reload your browser, and that's it, your database is ready !
+
+### With docker
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
