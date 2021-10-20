@@ -1,6 +1,5 @@
 import { Fragment, useState } from "react"
 import Link from "next/link"
-
 import { Dialog, Menu, Transition } from "@headlessui/react"
 import {
   BookOpenIcon,
@@ -10,6 +9,8 @@ import {
   XIcon,
 } from "@heroicons/react/outline"
 import { SearchIcon } from "@heroicons/react/solid"
+
+import Footer from "./Footer/Footer"
 
 const navigation = [
   { name: "Accueil", href: "/", icon: HomeIcon, current: true },
@@ -253,6 +254,7 @@ export default function Layout({ title, user, children }) {
           {/* </div> */}
           {/* </div> */}
           {children}
+          <Footer />
         </main>
       </div>
     </div>
