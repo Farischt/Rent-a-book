@@ -30,6 +30,16 @@ class AuthService {
   async logout() {
     return await axios.post(`${this.URI}/logout`)
   }
+
+  async requestPassword(email) {
+    return (
+      email && (await axios.post(`${this.URI}/password/request`, { email }))
+    )
+  }
+
+  async resetPassword(passwords) {
+    return await axios.patch(`${this.URI}/password/confirm`, passwords)
+  }
 }
 
 export default new AuthService()
