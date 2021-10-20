@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useRouter } from "next/router"
+import Head from "next/head"
 import Link from "next/link"
 
 import AuthService from "@/services/AuthService"
@@ -7,8 +7,7 @@ import ErrorMessage from "@/components/Shared/ErrorMessage"
 import Notification from "@/components/Shared/Notification"
 import Loading from "@/components/Utils/Loading"
 
-export default function Login() {
-  const router = useRouter()
+export default function Register() {
   const [user, setUser] = useState({
     first_name: "",
     last_name: "",
@@ -74,6 +73,10 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-white flex">
+      <Head>
+        <title>Efrei Books - Inscription </title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       {success && <Notification message={success} />}
       <div className="hidden lg:block relative w-0 flex-1">
         <img

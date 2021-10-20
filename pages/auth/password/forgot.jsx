@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Link from "next/link"
+import Head from "next/head"
 
 import AuthService from "@/services/AuthService"
 import Loading from "@/components/Utils/Loading"
@@ -52,6 +53,10 @@ export default function ForgotPassword() {
   return (
     <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <Head>
+          <title>Efrei Books - Mot de passe oublié </title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
         {success && <Notification message={success} />}
         <div className="max-w-md w-full space-y-8">
           <div>

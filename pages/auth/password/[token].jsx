@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Link from "next/link"
+import Head from "next/head"
 
 import AuthService from "@/services/AuthService"
 import Loading from "@/components/Utils/Loading"
@@ -70,6 +71,10 @@ export default function ResetPassword({ token }) {
 
   return (
     <>
+      <Head>
+        <title>Efrei Books - Réinitialisation de votre mot de passe </title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         {success && <Notification message={success} />}
         <div className="max-w-md w-full space-y-8">

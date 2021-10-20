@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useRouter } from "next/router"
+import Head from "next/head"
 import Link from "next/link"
 
 import AuthService from "@/services/AuthService"
@@ -53,6 +54,10 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-white flex">
+      <Head>
+        <title>Efrei Books - Connexion </title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>

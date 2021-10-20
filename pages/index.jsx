@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <Layout title="Home page" user={null}>
       <Head>
-        <title>Efrei Books - Home</title>
+        <title>Efrei Books - Accueil </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
     </Layout>
