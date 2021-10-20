@@ -3,6 +3,9 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 
 import AuthService from "@/services/AuthService"
+import ErrorMessage from "@/components/Shared/ErrorMessage"
+import Notification from "@/components/Shared/Notification"
+import Loading from "@/components/Utils/Loading"
 
 export default function Login() {
   const router = useRouter()
@@ -13,6 +16,7 @@ export default function Login() {
     password: "",
     repeatPassword: "",
   })
+  const [success, setSuccess] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
@@ -21,25 +25,60 @@ export default function Login() {
     setUser((state) => ({ ...state, [event.target.name]: event.target.value }))
   }
 
+  function handleError(error) {
+    switch (error) {
+      case "email_taken":
+        setError("Cet email est déjà utilisé !")
+        break
+      case "password_too_short":
+        setError("Votre mot de passe doit contenir au moins 8 caractères !")
+        break
+      case "password_lowercase_weakness":
+        setError("Votre mot de passe doit contenir au moins une minuscule !")
+        break
+      case "password_uppercase_weakness":
+        setError("Votre mot de passe doit contenir au moins une majuscule !")
+        break
+      case "password_number_weakness":
+        setError("Votre mot de passe doit contenir au moins un chiffre !")
+        break
+      case "password_special_weakness":
+        setError(
+          "Votre mot de passe doit contenir au moins un caractère spécial !"
+        )
+        break
+      default:
+        setError("Une erreur inconnue est survenu !")
+    }
+  }
+
   async function handleSubmit(event) {
     event.preventDefault()
     setLoading(true)
     try {
       await AuthService.register(user)
       setLoading(false)
-      router.push("/auth")
+      // router.push("/auth")
+      setSuccess(
+        "Votre inscription est complète ! Un e-mail vous à été envoyé."
+      )
     } catch (error) {
-      setError("Error Handling to be done here")
+      if (error.response.data.error) {
+        handleError(error.response.data.error)
+      } else {
+        setError("Une erreur inconnue est survenu !")
+      }
       setLoading(false)
     }
   }
 
   return (
     <div className="min-h-screen bg-white flex">
+      {success && <Notification message={success} />}
       <div className="hidden lg:block relative w-0 flex-1">
         <img
           className="absolute inset-0 h-full w-full object-cover"
-          src="https://images.unsplash.com/photo-1505904267569-f02eaeb45a4c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+          src="/register.png"
           alt=""
         />
       </div>
@@ -174,7 +213,18 @@ export default function Login() {
                   </div>
                 </div>
 
-                <div>
+                {/* <div className="flex items-center justify-center">
+                  {error && <p className="font-small text-danger"> {error} </p>}
+                </div> */}
+                {error && <ErrorMessage error={error} />}
+
+                <div className="flex items-center justify-between">
+                  <Link href="/">
+                    <a className="w-1/3 flex justify-center py-2 px-4 border border-indigo-600 rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      Retour
+                    </a>
+                  </Link>
+
                   <button
                     type="submit"
                     disabled={
@@ -182,9 +232,9 @@ export default function Login() {
                       user.password !== user.repeatPassword ||
                       user.password.length < 8
                     }
-                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                    className="w-1/2 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
                   >
-                    S'inscrire
+                    {loading ? <Loading showText /> : "S'inscrire"}
                   </button>
                 </div>
               </form>
@@ -196,8 +246,8 @@ export default function Login() {
   )
 }
 
-import Redirect from "@/lib/Redirect"
+import { redirectAuthenticatedUser } from "@/lib/Auth"
 
 export const getServerSideProps = async (context) => {
-  return (await Redirect.redirectAuthenticatedUser(context)) || { props: {} }
+  return (await redirectAuthenticatedUser(context)) || { props: {} }
 }

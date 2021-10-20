@@ -3,6 +3,8 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 
 import AuthService from "@/services/AuthService"
+import ErrorMessage from "@/components/Shared/ErrorMessage"
+import Loading from "@/components/Utils/Loading"
 
 export default function Login() {
   const router = useRouter()
@@ -22,6 +24,16 @@ export default function Login() {
     }))
   }
 
+  function handleError(error) {
+    switch (error) {
+      case "invalid_credentials":
+        setError("Identifiants incorrects !")
+        break
+      default:
+        setError("Une erreur inconnue est survenu !")
+    }
+  }
+
   async function handleSubmit(event) {
     event.preventDefault()
     setLoading(true)
@@ -31,13 +43,7 @@ export default function Login() {
       router.push("/")
     } catch (error) {
       if (error.response.data.error) {
-        switch (error.response.data.error) {
-          case "invalid_credentials":
-            setError("Identifiants incorects !")
-            break
-          default:
-            setError("Une erreur inconnue est survenu !")
-        }
+        handleError(error.response.data.error)
       } else {
         setError("Une erreur inconnue est survenu !")
       }
@@ -123,13 +129,21 @@ export default function Login() {
                   </div>
                 </div>
 
-                <div>
+                {error && <ErrorMessage error={error} />}
+
+                <div className="flex items-center justify-between">
+                  <Link href="/">
+                    <a className="w-1/3 flex justify-center py-2 px-4 border border-indigo-600 rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      Retour
+                    </a>
+                  </Link>
+
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                    className="w-1/2 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
                   >
-                    Se connecter
+                    {loading ? <Loading showText /> : "Se connecter"}
                   </button>
                 </div>
               </form>
@@ -140,7 +154,7 @@ export default function Login() {
       <div className="hidden lg:block relative w-0 flex-1">
         <img
           className="absolute inset-0 h-full w-full object-cover"
-          src="https://images.unsplash.com/photo-1505904267569-f02eaeb45a4c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+          src="/login.png"
           alt=""
         />
       </div>
@@ -148,8 +162,8 @@ export default function Login() {
   )
 }
 
-import Redirect from "@/lib/Redirect"
+import { redirectAuthenticatedUser } from "@/lib/Auth"
 
 export const getServerSideProps = async (context) => {
-  return (await Redirect.redirectAuthenticatedUser(context)) || { props: {} }
+  return (await redirectAuthenticatedUser(context)) || { props: {} }
 }
