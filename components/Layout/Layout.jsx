@@ -1,29 +1,37 @@
 import { Fragment, useState } from "react"
+import { useRouter } from "next/router"
 import Link from "next/link"
 import { Dialog, Menu, Transition } from "@headlessui/react"
 import {
   BookOpenIcon,
   HomeIcon,
   MenuAlt2Icon,
-  UsersIcon,
   XIcon,
 } from "@heroicons/react/outline"
 import { SearchIcon } from "@heroicons/react/solid"
 
+import AuthService from "@/services/AuthService"
 import Footer from "./Footer/Footer"
 
 const navigation = [
   { name: "Accueil", href: "/", icon: HomeIcon, current: true },
   { name: "Mes livres", href: "/mybooks", icon: BookOpenIcon, current: false },
 ]
-const userNavigation = [{ name: "Your Profile", href: "/profile" }]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ")
 }
 
 export default function Layout({ title, user, children }) {
+  const router = useRouter()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  async function logout() {
+    try {
+      await AuthService.logout()
+      router.replace(router.asPath)
+    } catch (error) {}
+  }
 
   return (
     <div className="h-screen flex overflow-hidden bg-gray-100">
@@ -212,22 +220,27 @@ export default function Layout({ title, user, children }) {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {userNavigation.map((item) => (
-                        <Menu.Item key={item.name}>
-                          <Link href={item.href}>
-                            {({ active }) => (
-                              <a
-                                className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700"
-                                )}
-                              >
-                                {item.name}
-                              </a>
+                      <Menu.Item>
+                        <Link href="/profile">
+                          <a
+                            className={classNames(
+                              "block px-4 py-2 text-sm text-gray-700 text-center"
                             )}
-                          </Link>
-                        </Menu.Item>
-                      ))}
+                          >
+                            {user.first_name}
+                          </a>
+                        </Link>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <div className="flex justify-center">
+                          <button
+                            onClick={logout}
+                            className="w-2/3 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          >
+                            Déconnexion
+                          </button>
+                        </div>
+                      </Menu.Item>
                     </Menu.Items>
                   </Transition>
                 </Menu>
