@@ -18,6 +18,10 @@ Our project uses the following technologies :
 
 ## Getting Started
 
+### Database Design
+
+![Image of UML Diagram](./UML.png)
+
 ### Without docker
 
 Install all the dependencies by running the following command :
