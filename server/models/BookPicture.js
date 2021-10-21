@@ -1,13 +1,9 @@
 import { Sequelize, Model, DataTypes } from "sequelize"
 
-class Asset extends Model {
-  static async getByType(mime_type) {
-    return mime_type && (await Asset.findAll({ where: { mime_type } }))
-  }
-}
+class BookPicture extends Model {}
 
-export default (sequelize) =>
-  Asset.init(
+export default (sequelize, Book) =>
+  BookPicture.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -28,9 +24,19 @@ export default (sequelize) =>
         type: DataTypes.BLOB,
         allowNull: false,
       },
+      book_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+        references: {
+          model: Book,
+          key: "id",
+        },
+      },
     },
     {
       sequelize,
-      modelName: "Asset",
+      modelName: "BookPicture",
     }
   )

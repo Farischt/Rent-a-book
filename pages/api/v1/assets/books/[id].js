@@ -7,7 +7,7 @@ export default async (req, res) => {
       return res.json({ error: "bad_request" })
     }
 
-    const asset = await Database.Asset.findByPk(req.query.id)
+    const asset = await Database.BookPicture.findByPk(req.query.id)
     if (!asset) {
       res.statusCode = 404
       return res.send()
