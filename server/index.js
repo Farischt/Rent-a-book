@@ -14,6 +14,36 @@ class Backend {
     return regexExp.test(id)
   }
 
+  setAuthCookie(context, token) {
+    context.res.setHeader(
+      "Set-Cookie",
+      cookie.serialize("authToken", token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "strict",
+        maxAge: 60 * 60,
+        path: "/",
+      })
+    )
+  }
+
+  deleteAuthCookie(context) {
+    context.res.setHeader(
+      "Set-Cookie",
+      cookie.serialize("authToken", null, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "strict",
+        maxAge: 0,
+        path: "/",
+      })
+    )
+  }
+
+  hasAuthTokenExpired(token) {
+    return Date.now() - new Date(token.createdAt).getTime() + 60 * 60 <= 0
+  }
+
   async parseMultipart(context) {
     return await new Promise((resolve, reject) => {
       formidable().parse(context.req, (error, body, files) => {
@@ -27,16 +57,7 @@ class Backend {
   }
 
   async login(context, token) {
-    context.res.setHeader(
-      "Set-Cookie",
-      cookie.serialize("authToken", token, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "strict",
-        maxAge: 60 * 60,
-        path: "/",
-      })
-    )
+    this.setAuthCookie(context, token)
   }
 
   async logout(context) {
@@ -46,16 +67,7 @@ class Backend {
       (await Database.AuthToken.findByPk(context.req.cookies.authToken))
     token && (await token.destroy())
 
-    context.res.setHeader(
-      "Set-Cookie",
-      cookie.serialize("authToken", null, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "strict",
-        maxAge: 0,
-        path: "/",
-      })
-    )
+    this.deleteAuthCookie(context)
   }
 
   async getAuthenticatedUser(context) {
@@ -66,24 +78,11 @@ class Backend {
 
     if (!token) return null
     else if (this.hasAuthTokenExpired(token)) {
-      context.res.setHeader(
-        "Set-Cookie",
-        cookie.serialize("authToken", null, {
-          httpOnly: true,
-          secure: false,
-          sameSite: "strict",
-          maxAge: 0,
-          path: "/",
-        })
-      )
+      this.deleteAuthCookie(context)
       await token.destroy()
       return null
     }
     return (await Database.User.findByPk(token.user_id)) || null
-  }
-
-  hasAuthTokenExpired(token) {
-    return Date.now() - new Date(token.createdAt).getTime() + 60 * 60 <= 0
   }
 }
 
