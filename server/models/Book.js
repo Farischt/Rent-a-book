@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes, Model, Op } from "sequelize"
+import { DataTypes, Model, Op } from "sequelize"
 
 import slugify from "slugify"
 
@@ -34,7 +34,7 @@ class Book extends Model {
   }
 }
 
-export default (sequelize, User, Asset) =>
+export default (sequelize, User) =>
   Book.init(
     {
       title: {
@@ -64,23 +64,23 @@ export default (sequelize, User, Asset) =>
         allowNull: true,
         defaultValue: null,
         onUpdate: "CASCADE",
-        onDelete: "SET NULL",
+        onDelete: "CASCADE",
         references: {
           model: User,
           key: "id",
         },
       },
 
-      asset_id: {
-        type: Sequelize.UUID,
-        allowNull: true,
-        onUpdate: "CASCADE",
-        onDelete: "SET NULL",
-        references: {
-          model: Asset,
-          key: "id",
-        },
-      },
+      // asset_id: {
+      //   type: Sequelize.UUID,
+      //   allowNull: true,
+      //   onUpdate: "CASCADE",
+      //   onDelete: "SET NULL",
+      //   references: {
+      //     model: Asset,
+      //     key: "id",
+      //   },
+      // },
     },
     { sequelize, modelName: "Book" }
   )
