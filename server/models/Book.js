@@ -26,6 +26,12 @@ class Book extends Model {
       }))
     )
   }
+
+  static async getAvailableBooks() {
+    return await Book.findAll({
+      where: { user_id: null },
+    })
+  }
 }
 
 export default (sequelize, User, Asset) =>
