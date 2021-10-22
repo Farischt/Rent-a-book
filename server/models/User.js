@@ -1,4 +1,5 @@
 import { DataTypes, Model } from "sequelize"
+import Database from "@/server/database"
 import bcryptjs from "bcryptjs"
 
 const SALT_ROUND = 10
@@ -14,6 +15,7 @@ class User extends Model {
 
   async checkPassword(password) {
     return (
+      password &&
       this.password !== null &&
       (await bcryptjs.compare(password, this.password))
     )
@@ -24,6 +26,12 @@ class User extends Model {
       password !== null && password !== undefined
         ? await bcryptjs.hash(password, SALT_ROUND)
         : null
+  }
+
+  async getProfilePicture() {
+    return await Database.UserPicture.findOne({
+      where: { user_id: this.id },
+    })
   }
 }
 

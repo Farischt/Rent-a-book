@@ -1,10 +1,16 @@
 import { DataTypes, Model, Op } from "sequelize"
-
+import Database from "@/server/database"
 import slugify from "slugify"
 
 class Book extends Model {
   setSlug() {
     this.slug = slugify(this.title, { lower: true })
+  }
+
+  async getPicture() {
+    return await Database.BookPicture.findOne({
+      where: { book_id: this.id },
+    })
   }
 
   static async isConflict(title) {
@@ -70,17 +76,6 @@ export default (sequelize, User) =>
           key: "id",
         },
       },
-
-      // asset_id: {
-      //   type: Sequelize.UUID,
-      //   allowNull: true,
-      //   onUpdate: "CASCADE",
-      //   onDelete: "SET NULL",
-      //   references: {
-      //     model: Asset,
-      //     key: "id",
-      //   },
-      // },
     },
     { sequelize, modelName: "Book" }
   )
