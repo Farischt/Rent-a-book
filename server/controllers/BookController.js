@@ -42,20 +42,21 @@ class BookController {
         return res.json({ error: "existing_book" })
       }
 
-      const asset = await Database.Asset.create({
-        file_name: req.files.image.name,
-        mime_type: req.files.image.type,
-        content: await fs.readFile(req.files.image.path),
-      })
-
       const book = Database.Book.build({
         title: req.body.title,
         author: req.body.author,
         content: req.body.content,
-        asset_id: asset.id,
       })
+
       book.setSlug(req.body.title)
       await book.save()
+
+      await Database.BookPicture.create({
+        file_name: req.files.image.name,
+        mime_type: req.files.image.type,
+        content: await fs.readFile(req.files.image.path),
+        book_id: book.id,
+      })
 
       res.statusCode = 201
       res.json(book)
