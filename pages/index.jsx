@@ -1,20 +1,20 @@
 import Head from "next/head"
-import Link from "next/link"
 import { ExternalLinkIcon } from "@heroicons/react/solid"
 
 import Layout from "@/components/Layout/Layout"
 import Hero from "@/components/Pages/Home/Hero"
 import Founders from "@/components/Pages/Home/Founders"
 
-export default function Home({ user, books }) {
-  // console.log(books)
+import AssetService from "@/services/AssetService"
 
+export default function Home({ user, books }) {
   return (
     <Layout title="Home page" user={user}>
       <Head>
         <title>Efrei Books - Accueil </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Hero user={user} />
       <Founders />
       <div className="relative bg-gray-800">
@@ -65,7 +65,20 @@ import Database from "@/server/database"
 
 export const getServerSideProps = async (context) => {
   const user = await Backend.getAuthenticatedUser(context)
-  const latestBooks = await Database.Book.getAvailableBooks()
+  const latestBooks = await Promise.all(
+    (
+      await Database.Book.getAvailableBooks()
+    ).map(async (book) => {
+      return {
+        id: book.id,
+        title: book.title,
+        slug: book.slug,
+        author: book.author,
+        content: book.content,
+        picture: await book.getPicture(),
+      }
+    })
+  )
 
   return {
     props: {
@@ -86,6 +99,7 @@ export const getServerSideProps = async (context) => {
           slug: book.slug,
           author: book.author,
           content: book.content,
+          picture_id: book.picture.id,
         })),
     },
   }
