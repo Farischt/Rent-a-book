@@ -20,7 +20,9 @@ const sync = false
 ;(async () => {
   if (sync) {
     console.log("Syncronizing all models")
-    await sequelize.sync({ force: true })
+    // await sequelize.sync({ force: true })
+    // await models.Book.sync({ force: true })
+    await models.Loan.sync({ force: true })
   }
 })()
 

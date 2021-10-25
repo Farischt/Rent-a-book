@@ -33,14 +33,15 @@ class Book extends Model {
     )
   }
 
+  // TODO : Change this method
   static async getAvailableBooks() {
     return await Book.findAll({
-      where: { user_id: null },
+      where: { available: true },
     })
   }
 }
 
-export default (sequelize, User) =>
+export default (sequelize) =>
   Book.init(
     {
       title: {
@@ -65,17 +66,11 @@ export default (sequelize, User) =>
         allowNull: false,
       },
 
-      user_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        defaultValue: null,
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-        references: {
-          model: User,
-          key: "id",
-        },
-      },
+      // available: {
+      //   type: DataTypes.BOOLEAN,
+      //   allowNull: false,
+      //   defaultValue: true,
+      // },
     },
     { sequelize, modelName: "Book" }
   )

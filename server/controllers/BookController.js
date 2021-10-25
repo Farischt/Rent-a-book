@@ -79,26 +79,32 @@ class BookController {
 
     try {
       const book = await Database.Book.getBySlug(req.query.slug)
-
       if (!book) {
         res.statusCode = 404
         return res.json({ error: "book_not_found" })
-      } else if (book.user_id && book.user_id === user.id) {
-        res.statusCode = 403
-        return res.json({ error: "book_already_owned" })
-      } else if (book.user_id) {
-        res.statusCode = 403
-        return res.json({ error: "unavailable_book" })
       }
 
-      book.user_id = user.id
-      await book.save()
+      const { count } = await Database.Loan.findAndCountAll({
+        where: {
+          book_id: book.id,
+          deposit_date: null,
+        },
+      })
+      if (count === 1) {
+        res.statusCode = 403
+        return res.json({ error: "book_not_available" })
+      }
+
+      await Database.Loan.create({
+        user_id: user.id,
+        book_id: book.id,
+      })
 
       res.statusCode = 200
       res.json({
         success: true,
         book: book.id,
-        user: book.user_id,
+        user: user.id,
       })
     } catch (error) {
       console.log(error)
