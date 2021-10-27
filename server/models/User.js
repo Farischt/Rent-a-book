@@ -33,6 +33,18 @@ class User extends Model {
       where: { user_id: this.id },
     })
   }
+
+  async isBookMine(bookId) {
+    const mine = await Database.Loan.findOne({
+      where: {
+        book_id: bookId,
+        user_id: this.id,
+        deposit_date: null,
+      },
+    })
+
+    return mine ? true : false
+  }
 }
 
 export default (sequelize) =>
