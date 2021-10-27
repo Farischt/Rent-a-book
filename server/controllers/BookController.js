@@ -67,6 +67,7 @@ class BookController {
     }
   }
 
+  //! Borrow a book
   async borrow(req, res) {
     const user = await Backend.getAuthenticatedUser({ req, res })
     if (!user) {
@@ -84,6 +85,7 @@ class BookController {
         return res.json({ error: "book_not_found" })
       }
 
+      //! Change with is book available method
       const { count } = await Database.Loan.findAndCountAll({
         where: {
           book_id: book.id,
@@ -98,6 +100,8 @@ class BookController {
       await Database.Loan.create({
         user_id: user.id,
         book_id: book.id,
+        loan_date: Date.now(),
+        due_date: Date.now() + 7 * 86400000,
       })
 
       res.statusCode = 200
@@ -110,6 +114,61 @@ class BookController {
       console.log(error)
       res.statusCode = 500
       res.json({ error: "internal_server_error" })
+    }
+  }
+
+  //! Returns a book
+  async return(req, res) {
+    const user = await Backend.getAuthenticatedUser({ req, res })
+    if (!user) {
+      res.statusCode = 401
+      return res.json({ error: "unauthorized" })
+    } else if (typeof req.query.slug != "string") {
+      res.statusCode = 400
+      return res.json({ error: "missing_slug" })
+    }
+
+    try {
+      const book = await Database.Book.getBySlug(req.query.slug)
+      if (!book) {
+        res.statusCode = 404
+        return res.json({ error: "book_not_found" })
+      }
+
+      const loan = await Database.Loan.findOne({
+        where: {
+          user_id: user.id,
+          book_id: book.id,
+          deposit_date: null,
+        },
+      })
+
+      if (!loan) {
+        res.statusCode = 404
+        return res.json({ error: "loan_not_found" })
+      }
+
+      loan.deposit_date = Date.now()
+
+      const loanDate = new Date(loan.loan_date)
+      const depositDate = Date.now()
+
+      console.log(depositDate - loanDate.getTime())
+
+      if (depositDate - loanDate.getTime() < 0) {
+        //! Handle case were user returned the book late
+        console.log(depositDate - loanDate.getTime() < 0)
+      }
+
+      loan.save()
+      res.statusCode = 200
+      res.json({
+        success: true,
+      })
+    } catch (error) {
+      console.log(error)
+      res.statusCode = 500
+      res.json({ error: "internal_server_errors" })
     }
   }
 }
