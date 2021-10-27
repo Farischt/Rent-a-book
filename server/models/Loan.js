@@ -1,6 +1,15 @@
 import { Sequelize, DataTypes, Model } from "sequelize"
+import Database from "@/server/database"
 
-class Loan extends Model {}
+class Loan extends Model {
+  async getEquivalentBook() {
+    return await Database.Book.findOne({
+      where: {
+        id: this.book_id,
+      },
+    })
+  }
+}
 
 export default (sequelize, User, Book) =>
   Loan.init(
