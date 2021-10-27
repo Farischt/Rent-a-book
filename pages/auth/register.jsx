@@ -117,7 +117,7 @@ export default function Register() {
                       value={user.email}
                       onChange={handleChange}
                       required
-                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                     />
                   </div>
                 </div>
@@ -138,7 +138,7 @@ export default function Register() {
                       required
                       value={user.first_name}
                       onChange={handleChange}
-                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                     />
                   </div>
                 </div>
@@ -159,7 +159,7 @@ export default function Register() {
                       required
                       value={user.last_name}
                       onChange={handleChange}
-                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                     />
                   </div>
                 </div>
@@ -180,7 +180,7 @@ export default function Register() {
                       required
                       value={user.password}
                       onChange={handleChange}
-                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                     />
                   </div>
                 </div>
@@ -201,7 +201,7 @@ export default function Register() {
                       required
                       value={user.repeatPassword}
                       onChange={handleChange}
-                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                     />
                   </div>
                 </div>
@@ -209,7 +209,7 @@ export default function Register() {
                 <div className="flex items-center justify-center">
                   <div className="text-sm">
                     <Link href="/auth/">
-                      <a className="font-medium text-indigo-600 hover:text-indigo-500">
+                      <a className="font-medium text-primary hover:text-primary-dark">
                         Déjà inscrit ?
                       </a>
                     </Link>
@@ -223,7 +223,7 @@ export default function Register() {
 
                 <div className="flex items-center justify-between">
                   <Link href="/">
-                    <a className="w-1/3 flex justify-center py-2 px-4 border border-indigo-600 rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <a className="w-1/3 flex justify-center py-2 px-4 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                       Retour
                     </a>
                   </Link>
@@ -235,7 +235,7 @@ export default function Register() {
                       user.password !== user.repeatPassword ||
                       user.password.length < 8
                     }
-                    className="w-1/2 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                    className="w-1/2 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
                   >
                     {loading ? <Loading showText /> : "S'inscrire"}
                   </button>
