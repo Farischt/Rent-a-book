@@ -39,7 +39,7 @@ export default (sequelize, User, Book) =>
       due_date: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Date.now(),
+        defaultValue: Date.now() + 7 * 86400000,
       },
 
       deposit_date: {
