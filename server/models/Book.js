@@ -33,11 +33,15 @@ class Book extends Model {
     )
   }
 
-  // TODO : Change this method
-  static async getAvailableBooks() {
-    return await Book.findAll({
-      where: { available: true },
+  async isAvailable() {
+    const { count } = await Database.Loan.findAndCountAll({
+      where: {
+        book_id: this.id,
+        deposit_date: null,
+      },
     })
+
+    return count === 0
   }
 }
 
