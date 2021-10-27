@@ -45,6 +45,15 @@ class User extends Model {
 
     return mine ? true : false
   }
+
+  async getMyLoans() {
+    return await Database.Loan.findAll({
+      where: {
+        user_id: this.id,
+        deposit_date: null,
+      },
+    })
+  }
 }
 
 export default (sequelize) =>
