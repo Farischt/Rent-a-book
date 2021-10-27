@@ -118,7 +118,7 @@ export default function ResetPassword({ token }) {
                   name="newPassword"
                   value={data.newPassword}
                   onChange={handleChange}
-                  className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                   placeholder="Mot de passe"
                 />
               </div>
@@ -133,7 +133,7 @@ export default function ResetPassword({ token }) {
                   name="repeatPassword"
                   value={data.repeatPassword}
                   onChange={handleChange}
-                  className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                   placeholder="Repétez votre mot de passe !"
                 />
               </div>
@@ -143,7 +143,7 @@ export default function ResetPassword({ token }) {
 
             <div className="flex items-center justify-between">
               <Link href="/">
-                <a className="w-1/3 flex justify-center py-2 px-4 border border-indigo-600 rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <a className="w-1/3 flex justify-center py-2 px-4 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                   Retour
                 </a>
               </Link>
@@ -155,7 +155,7 @@ export default function ResetPassword({ token }) {
                   data.newPassword !== data.repeatPassword ||
                   data.newPassword.length < 8
                 }
-                className="w-1/2 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                className="w-1/2 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
               >
                 {loading ? <Loading showText /> : "Envoyer"}
               </button>
