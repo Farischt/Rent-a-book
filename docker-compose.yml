@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  db:
+    container_name: ${DB_CONTAINER_NAME}
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./dump/:/docker-entrypoint-initdb.d
+      # Make sur ./dump/migration.sql db name is the same as process.env.DB_NAME
+    ports:
+      - "5432:5432"
+  web:
+    container_name: book_web
+    build: ./
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
