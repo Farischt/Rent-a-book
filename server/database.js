@@ -1,7 +1,6 @@
 import { Sequelize } from "sequelize"
 import Models from "./models/index"
 import { DATABASE_CREDENTIALS } from "./database.config"
-import BookPicture from "./models/BookPicture"
 
 const sequelize = new Sequelize(
   Object.assign(
@@ -23,10 +22,8 @@ const sync = false
     console.log("Syncronizing loan model...")
     // await sequelize.sync({ force: true })
     await models.Loan.sync({ force: true })
-    await models.Book.sync({ force: true })
     await models.AuthToken.sync({ force: true })
     await models.PasswordResetToken.sync({ force: true })
-    await models.BookPicture.sync({ force: true })
   }
 })()
 
