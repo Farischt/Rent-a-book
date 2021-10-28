@@ -1,6 +1,7 @@
 # Rent a book service
 
-This web application was created during the advanced web development course of Efrei Paris
+This web application was created during the advanced web development (IT-1, Djeroud) course of Efrei Paris (Group composed of Faris CHTATOU, Evan Mounaud, Yoni FELDMAN)
+This web application was also created during the systems, application & services course (ST2SAS, SE-1, Charroux) (Group composed of Faris CHTATOU, Léa BUENDE, Bouthayna ATIK)
 
 ## Installation
 
