@@ -6,7 +6,7 @@ export default function MyBooks({ user, books }) {
       {books && books.length ? (
         <p> Vos livres </p>
       ) : (
-        <p> Vous n'avez pas encore de livre ! </p>
+        <p> Vous n&apos;avez pas encore de livre ! </p>
       )}
     </Layout>
   )
