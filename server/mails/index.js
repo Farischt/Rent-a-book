@@ -4,11 +4,12 @@ import { CREDENTIALS, WEBSITE_URL } from "./mail.config.js"
 class EmailService {
   constructor() {
     this.transporter = nodemailer.createTransport({
-      host: "smtp-mail.outlook.com",
+      host: "smtp.ethereal.email", //! For outlook use : "stmp-mail.outlouk.com"
       port: 587,
-      tls: {
-        ciphers: "SSLv3",
-      },
+      //! Uncomment this in order to use Outlouk service
+      // tls: {
+      //   ciphers: "SSLv3",
+      // },
       auth: {
         user: CREDENTIALS.APP_EMAIL,
         pass: CREDENTIALS.APP_PASSWORD,
