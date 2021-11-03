@@ -1,9 +1,12 @@
 # Rent a book service
 
-This web application was created during the advanced web development (IT-1, Djeroud) course of Efrei Paris (Group composed of Faris CHTATOU, Evan Mounaud, Yoni FELDMAN)
-This web application was also created during the systems, application & services course (ST2SAS, SE-1, Charroux) (Group composed of Faris CHTATOU, Léa BUENDE, Bouthayna ATIK)
+This web application was created during the advanced web development (IT-1, Djeroud) course of Efrei Paris (Group composed of Faris CHTATOU, Evan Mounaud, Yoni FELDMAN). The source code is available in main branch.
+
+This web application was also created during the systems, application & services course (ST2SAS, SE-1, Charroux) (Group composed of Faris CHTATOU, Léa BUENDE, Bouthayna ATIK). The source code is available in feat/ST2SAS.
 
 ## Installation
+
+Create a file named .env.development and .env (only if you need docker) at the root of the project which should be completed with the .env.example file [here](./.env.example). The application will not work if this step is not done, because the connection to the database will not be established.
 
 First, you'll need node.js and node package manager "npm" installed : [https://nodejs.org/en/].
 
@@ -64,6 +67,7 @@ docker-compose up
 #### Manually
 
 You can find [Our project](https://hub.docker.com/repository/docker/farischt/project)
+
 This image comes with a predefined etheral email and application admin account :
 
 - admin@admin.com
@@ -77,19 +81,25 @@ docker network create -d bridge book-network
 docker run -d --network=book-network -p 3000:3000 --name book_web farischt/project
 ```
 
-Once this step is done, you will face a error 500 in your localhost:3000 since the database is not set yet.
+Once this step is done, if you start the container, you will face a error 500 in your localhost:3000, since the database is not set yet.
 This is why we highly recommand you to use docker-compose as written previously.
 
 To create the database you will have to create a new postgres container:
 
 ```
 docker pull postgres:alpine
-docker run -d -p 5432:5432 --network=book-network --name book_db -v ./dump/:/docker-entrypoint-initdb.d -e POSTGRES_PASSWORD=<DB_PASSWORD in your .env file> postgres
-docker exec -it book_db bash
-psq -U postgres
+docker run -d -p 5432:5432 --network=book-network --name book_db -v ./dump/:/docker-entrypoint-initdb.d -e POSTGRES_PASSWORD=root postgres
 ```
 
-**ATTENTION** in this case the database book is empty ! You should use volumes to init the database using [this](./dump/init.sql)
+Finally run :
+
+```
+docker start book_db book_web
+```
+
+And open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+**ATTENTION** The file to use for volumes is [here](./dump/init.sql)
 
 If you are facing any issue :
 
