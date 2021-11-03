@@ -8,9 +8,11 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./dump/:/docker-entrypoint-initdb.d
+      # - ./postgres-data:/var/lib/postgresql/data
       # Make sur ./dump/migration.sql db name is the same as process.env.DB_NAME
     ports:
       - "5432:5432"
+
   web:
     container_name: book_web
     build: ./
