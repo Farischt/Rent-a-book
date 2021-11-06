@@ -1,5 +1,8 @@
 {
   "private": true,
+  "name": "@farischt/bookapp",
+  "version": "1.0",
+  "author": "Faris Chtatou <faris.manage@gmail.com>",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
