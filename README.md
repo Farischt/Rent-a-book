@@ -10,8 +10,8 @@ Create a file named .env.development and .env (only if you need docker) at the r
 
 First, you'll need node.js and node package manager "npm" installed : [https://nodejs.org/en/].
 
-- Our version of node.js : v14.17.0. **Make sure to use this version of node to avoid any compatibility issue**
-- Our version of npm : v7.12.1.
+- Our version of node.js : v14.17.6. **Make sure to use this version of node to avoid any compatibility issue**
+- Our version of yarn : v1.22.15.
 
 ## Technologies
 
@@ -26,11 +26,7 @@ Our project uses the following technologies :
 
 ![Image of UML Diagram](./UML.png)
 
-### With docker
-
-#### Docker-Compose
-
-##### With DockerFile use
+### With docker-compose
 
 **This option is highly recommanded to avoid any env variable namming error**
 With docker-compose all you have to do is first create the .env file  
@@ -41,70 +37,6 @@ Once all these steps are done, all you have to do is :
 ```
 docker-compose up
 ```
-
-##### Without DockerFile use
-
-**ATTENTION** In this part, env variables must be the exact same as previously
-
-All you have to do is replace line 16 of docker-compose.yml file
-
-```
-    build: ./
-```
-
-With
-
-```
-    image: farischt/project:latest
-```
-
-Once all these steps are done, all you have to do is :
-
-```
-docker-compose up
-```
-
-#### Manually
-
-You can find [Our project](https://hub.docker.com/repository/docker/farischt/project)
-
-This image comes with a predefined etheral email and application admin account :
-
-- admin@admin.com
-- Bonjour12345!
-
-To use this image you'll first have to use the following cmd:
-
-```
-docker pull farischt/project:latest
-docker network create -d bridge book-network
-docker run -d --network=book-network -p 3000:3000 --name book_web farischt/project
-```
-
-Once this step is done, if you start the container, you will face a error 500 in your localhost:3000, since the database is not set yet.
-This is why we highly recommand you to use docker-compose as written previously.
-
-To create the database you will have to create a new postgres container:
-
-```
-docker pull postgres:alpine
-docker run -d -p 5432:5432 --network=book-network --name book_db -v ./dump/:/docker-entrypoint-initdb.d -e POSTGRES_PASSWORD=root postgres
-```
-
-Finally run :
-
-```
-docker start book_db book_web
-```
-
-And open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-**ATTENTION** The file to use for volumes is [here](./dump/init.sql)
-
-If you are facing any issue :
-
-- Read the [official postgres image documentation](https://hub.docker.com/_/postgres)
-- Feel free to contact us
 
 ### Without docker
 
