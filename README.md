@@ -8,7 +8,7 @@ This web application was also created during the systems, application & services
 
 Create a file named .env.development and .env (only if you need docker) at the root of the project which should be completed with the .env.example file [here](./.env.example). The application will not work if this step is not done, because the connection to the database will not be established.
 
-First, you'll need node.js and node package manager "npm" installed : [https://nodejs.org/en/].
+First, you'll need node.js and node package manager "yarn" installed : [https://nodejs.org/en/].
 
 - Our version of node.js : v14.17.6. **Make sure to use this version of node to avoid any compatibility issue**
 - Our version of yarn : v1.22.15.
@@ -43,7 +43,7 @@ docker-compose up
 Install all the dependencies by running the following command :
 
 ```bash
-npm install
+yarn install
 ```
 
 Create a file named .env.development and .env (only if you need docker) at the root of the project which should be completed with the .env.example file [here](./.env.example). The application will not work if this step is not done, because the connection to the database will not be established.
@@ -85,7 +85,7 @@ This line of code creates all the tables in database.
 Then, run the development server:
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
