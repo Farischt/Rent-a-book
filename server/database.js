@@ -19,11 +19,11 @@ const sync = false
 
 ;(async () => {
   if (sync) {
-    console.log("Syncronizing loan model...")
-    // await sequelize.sync({ force: true })
-    await models.Loan.sync({ force: true })
-    await models.AuthToken.sync({ force: true })
-    await models.PasswordResetToken.sync({ force: true })
+    console.log("Syncronizing all model...")
+    await sequelize.sync({ force: true })
+    // await models.Loan.sync({ force: true })
+    // await models.AuthToken.sync({ force: true })
+    // await models.PasswordResetToken.sync({ force: true })
   }
 })()
 
