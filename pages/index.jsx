@@ -1,5 +1,4 @@
 import Head from "next/head"
-import { ExternalLinkIcon } from "@heroicons/react/solid"
 
 import Layout from "@/components/Layout/Layout"
 import Hero from "@/components/Pages/Home/Hero"
