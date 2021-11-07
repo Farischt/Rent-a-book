@@ -48,7 +48,7 @@ yarn install
 
 Create a file named .env.development and .env (only if you need docker) at the root of the project which should be completed with the .env.example file [here](./.env.example). The application will not work if this step is not done, because the connection to the database will not be established.
 
-**ATTENTION**: The mailing system works with etheral service! If you are willing to use another service, you will have to modify the constructor in the file /server/mails/index.js [here](./server/mails/index.js)
+**ATTENTION**: The mailing system works with etheral service https://ethereal.email/login ! If you are willing to use another service, you will have to modify the constructor in the file /server/mails/index.js [here](./server/mails/index.js)
 
 ```
 this.transporter = nodemailer.createTransport({
